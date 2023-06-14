@@ -28,7 +28,6 @@ local sources = {
   b.formatting.goimports,
 
   -- php
-  b.diagnostics.phpcs,
   b.diagnostics.php,
 }
 
