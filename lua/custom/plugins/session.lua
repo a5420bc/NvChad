@@ -18,14 +18,15 @@ vim.api.nvim_exec(
      \ 'echo "Cleaning up before saving.."',
      \ 'silent FloatermKill!'
      \ ]
+     let g:startify_session_persistence = 1
      let g:session_autoload='yes'
-     let g:session_autosave='yes'
+     let g:session_autosave='no'
      let g:session_extension=""
      let g:session_default_to_last=1
      let g:session_lock_enabled=0
      let g:session_swap_name = ""
-     let g:startify_session_dir = stdpath('data') . '/sessions'
-     let g:session_directory =  stdpath('data') . '/sessions'
+     let g:startify_session_dir = stdpath('data') . '/session'
+     let g:session_directory =  stdpath('data') . '/session'
      function MySessionReload(name, bang) abort
        if g:session_swap_name != ""  && a:name == ""
          let s_session_name_old = g:session_swap_name
