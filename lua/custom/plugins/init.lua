@@ -3,11 +3,9 @@ local overrides = require "custom.plugins.overrides"
 return {
 
   -- ["goolord/alpha-nvim"] = { disable = false }, -- enables dashboard
-
+  -- file managing , picker etc
   -- session manager
-  ["mhinz/vim-startify"] = {},
-  ["xolox/vim-session"] = {
-    requires = "xolox/vim-misc",
+  ["mhinz/vim-startify"] = {
     config = function()
       require "custom.plugins.session"
     end,
@@ -269,5 +267,11 @@ return {
     dependencies = {
       "nvim-lua/plenary.nvim",
     },
-  }
+  },
+  -- ['jedrzejboczar/possession.nvim'] = {
+  --   requires =  'nvim-lua/plenary.nvim',
+  --   config = function()
+  --     require("possession").setup({})
+  --   end
+  -- },
 }

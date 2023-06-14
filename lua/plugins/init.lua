@@ -179,6 +179,7 @@ local plugins = {
     config = function()
       require "plugins.configs.nvimtree"
     end,
+    commit="89c79cb33bc4867ccf9ee4810697da76ac59fdba",
     setup = function()
       require("core.utils").load_mappings "nvimtree"
     end,
