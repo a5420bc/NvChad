@@ -44,6 +44,8 @@ vim.opt.fileencodings = "ucs-bom,utf-8,gbk,gb18030,big5,euc-jp,latin1"
 -- 设置新打开的窗口在左边
 vim.opt.splitright = false
 
+vim.api.nvim_command('command! -nargs=1 LiveGrep lua require("telescope").extensions.live_grep_args.live_grep_args({default_text=<q-args>})<CR>')
+
 -- Auto resize panes when resizing nvim window
 -- autocmd("VimResized", {
 --   pattern = "*",
