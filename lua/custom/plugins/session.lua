@@ -16,44 +16,30 @@ vim.api.nvim_exec(
      " 切换session时关闭所有的terminal
      let g:startify_session_before_save = [
      \ 'echo "Cleaning up before saving.."',
-     \ 'silent FloatermKill!',
-     \ 'call writefile([fnamemodify(v:this_session, ":t")], g:startify_session_dir . "/last-session.txt")'
+     \ 'silent FloatermKill!'
      \ ]
-     let g:startify_session_persistence = 1
+     let g:session_autoload='yes'
+     let g:session_autosave='yes'
+     let g:session_extension=""
+     let g:session_default_to_last=1
+     let g:session_lock_enabled=0
      let g:session_swap_name = ""
-     let g:startify_session_dir = stdpath('data') . '/session'
+     let g:startify_session_dir = stdpath('data') . '/sessions'
+     let g:session_directory =  stdpath('data') . '/sessions'
      function MySessionReload(name, bang) abort
        if g:session_swap_name != ""  && a:name == ""
          let s_session_name_old = g:session_swap_name
          let g:session_swap_name =  fnamemodify(v:this_session, ':t')
-         call startify#session_load(a:bang, s_session_name_old)
+         call xolox#session#open_cmd(s_session_name_old, a:bang, 'OpenSession')
        else
          let g:session_swap_name =  fnamemodify(v:this_session, ':t')
-         call startify#session_load(a:bang, a:name)
+         call xolox#session#open_cmd(a:name, a:bang, 'OpenSession')
        endif
        if &filetype == "php"
          exe "silent! LspRestart"
        endif
      endfunction
-     command! -bar -bang -nargs=? -complete=customlist,startify#session_list MyOpenSession  call MySessionReload(<q-args>, <q-bang>)
-     function! s:get_last_or_default_session()
-       let last_session_file = g:startify_session_dir . "/last-session.txt"
-       let has_last_session = filereadable(last_session_file)
-       if has_last_session
-         let lines = readfile(last_session_file)
-         return [has_last_session, lines[0] ]
-        else
-          return [has_last_session, g:session_default_name]
-        endif
-     endfunction
-     function!  s:auto_load()
-       let [has_last_session, session] = s:get_last_or_default_session()
-       let path = g:startify_session_dir . '/' .  session
-       if (has_last_session && filereadable(path))
-           call startify#session_load("", session)
-       endif
-     endfunction
-     au VimEnter * nested call s:auto_load()
+     command! -bar -bang -nargs=? -complete=customlist,xolox#session#complete_names MyOpenSession  call MySessionReload(<q-args>, <q-bang>)
 ]],
   true
 )

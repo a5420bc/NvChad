@@ -5,7 +5,9 @@ return {
   -- ["goolord/alpha-nvim"] = { disable = false }, -- enables dashboard
   -- file managing , picker etc
   -- session manager
-  ["mhinz/vim-startify"] = {
+  ["mhinz/vim-startify"] = {},
+  ["xolox/vim-session"] = {
+    requires = "xolox/vim-misc",
     config = function()
       require "custom.plugins.session"
     end,
