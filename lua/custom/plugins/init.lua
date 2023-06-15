@@ -270,6 +270,9 @@ return {
       "nvim-lua/plenary.nvim",
     },
   },
+  ["kkoomen/vim-doge"] = {
+    run = ":call doge#install()",
+  },
   -- ['jedrzejboczar/possession.nvim'] = {
   --   requires =  'nvim-lua/plenary.nvim',
   --   config = function()
