@@ -29,6 +29,7 @@ local sources = {
 
   -- php
   b.diagnostics.php,
+  b.formatting.phpcsfixer.with {args = {"--rules=@PSR2", "--no-interaction", "--quiet", "fix", "$FILENAME"}},
 }
 
 null_ls.setup {
