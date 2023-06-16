@@ -67,7 +67,7 @@ M.buf = {
 M.telescope = {
   n = {
     ["<A-f>"] = {
-      ":LiveGrep",
+      ":LiveGrep ",
       "search word",
     },
     ["<leader>fc"] = {
