@@ -43,6 +43,9 @@ vim.opt.fileencodings = "ucs-bom,utf-8,gbk,gb18030,big5,euc-jp,latin1"
 
 -- 设置新打开的窗口在左边
 vim.opt.splitright = false
+opt.shiftwidth = 4
+opt.tabstop = 4
+opt.softtabstop = 4
 
 vim.api.nvim_command('command! -nargs=1 LiveGrep lua require("telescope").extensions.live_grep_args.live_grep_args({default_text=<q-args>})<CR>')
 
