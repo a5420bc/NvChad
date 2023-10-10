@@ -26,6 +26,9 @@ return {
   -- overrde plugin configs
   ["nvim-treesitter/nvim-treesitter"] = {
     override_options = overrides.treesitter,
+    config = function() 
+        require('nvim-treesitter.install').compilers = { 'clang' }
+    end,
   },
 
   ["williamboman/mason.nvim"] = {
