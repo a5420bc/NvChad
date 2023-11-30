@@ -109,6 +109,7 @@ local plugins = {
   },
 
   ["neovim/nvim-lspconfig"] = {
+    tag = "v0.1.6",
     opt = true,
     setup = function()
       require("core.lazy_load").on_file_open "nvim-lspconfig"
