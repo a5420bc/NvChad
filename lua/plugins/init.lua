@@ -56,6 +56,7 @@ local plugins = {
   },
 
   ["lukas-reineke/indent-blankline.nvim"] = {
+    tag="v2.20.8",
     opt = true,
     setup = function()
       require("core.lazy_load").on_file_open "indent-blankline.nvim"
