@@ -99,7 +99,8 @@ local plugins = {
   },
   {
     "nvim-lualine/lualine.nvim",
-    config = function()
+    dependencies = {"NvChad/ui"},
+    init = function()
       require("lualine").setup {
         sections = {
           lualine_b = { { "%{fnamemodify(v:this_session,':t')}" }, "branch", "diff", "diagnostics" },
