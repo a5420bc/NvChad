@@ -4,6 +4,12 @@ vim.cmd "set noswapfile"
 
 vim.o.confirm = true
 vim.opt.title = true
+-- 设置tab宽度为4个空格
+vim.opt.shiftwidth = 4
+vim.opt.tabstop = 4
+vim.opt.softtabstop = 4
+vim.opt.splitbelow = false
+
 autocmd("BufEnter", {
   group = vim.api.nvim_create_augroup("NvimTreeClose", { clear = true }),
   callback = function()
@@ -29,6 +35,7 @@ autocmd("ExitPre", {
         vim.cmd("bd! " .. buffer)
       end
     end
+   
     -- 关闭除当前活跃tab
     local tabs = vim.api.nvim_list_tabpages()
     for _, tab in ipairs(tabs) do
@@ -45,6 +52,8 @@ vim.opt.fileencodings = "ucs-bom,utf-8,gbk,gb18030,big5,euc-jp,latin1"
 vim.opt.splitright = false
 
 vim.api.nvim_command('command! -nargs=1 LiveGrep lua require("telescope").extensions.live_grep_args.live_grep_args({default_text=<q-args>})<CR>')
+
+vim.cmd("autocmd FileType sql,mysql,plsql lua require('cmp').setup.buffer({ sources = {{ name = 'vim-dadbod-completion' }} })")
 
 -- Auto resize panes when resizing nvim window
 -- autocmd("VimResized", {

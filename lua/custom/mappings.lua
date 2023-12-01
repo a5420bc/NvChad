@@ -1,5 +1,12 @@
 local M = {}
 
+M.whichkey = {
+  n = {
+    ["<leader>wK"] = {"", ""},
+    ["<leader>wk"] = {"", ""},
+  },
+}
+
 M.disabled = {
   n = {
     ["<C-h>"] = "",
@@ -99,6 +106,10 @@ M.telescope = {
     ["<leader>cc"] = {
       "<cmd>Telescope lsp_dynamic_workspace_symbols<CR>",
       "find symbols in current workspace",
+    },
+    ["<leader>tk"] = {
+      "<cmd> Telescope keymaps<CR>",
+      "find keymaps",
     },
   },
 }

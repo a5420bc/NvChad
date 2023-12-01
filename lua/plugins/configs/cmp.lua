@@ -1,12 +1,35 @@
-local present, cmp = pcall(require, "cmp")
+local cmp = require "cmp"
 
-if not present then
-  return
-end
+dofile(vim.g.base46_cache .. "cmp")
 
-require("base46").load_highlight "cmp"
+local cmp_ui = require("core.utils").load_config().ui.cmp
+local cmp_style = cmp_ui.style
 
-vim.o.completeopt = "menu,menuone,noselect"
+local field_arrangement = {
+  atom = { "kind", "abbr", "menu" },
+  atom_colored = { "kind", "abbr", "menu" },
+}
+
+local formatting_style = {
+  -- default fields order i.e completion word + item.kind + item.kind icons
+  fields = field_arrangement[cmp_style] or { "abbr", "kind", "menu" },
+
+  format = function(_, item)
+    local icons = require "nvchad.icons.lspkind"
+    local icon = (cmp_ui.icons and icons[item.kind]) or ""
+
+    if cmp_style == "atom" or cmp_style == "atom_colored" then
+      icon = " " .. icon .. " "
+      item.menu = cmp_ui.lspkind_text and "   (" .. item.kind .. ")" or ""
+      item.kind = icon
+    else
+      icon = cmp_ui.lspkind_text and (" " .. icon .. " ") or icon
+      item.kind = string.format("%s %s", icon, cmp_ui.lspkind_text and item.kind or "")
+    end
+
+    return item
+  end,
+}
 
 local function border(hl_name)
   return {
@@ -21,15 +44,6 @@ local function border(hl_name)
   }
 end
 
-local cmp_window = require "cmp.utils.window"
-
-cmp_window.info_ = cmp_window.info
-cmp_window.info = function(self)
-  local info = self:info_()
-  info.scrollable = false
-  return info
-end
-
 local has_words_before = function()
   unpack = unpack or table.unpack
   local line, col = unpack(vim.api.nvim_win_get_cursor(0))
@@ -37,13 +51,19 @@ local has_words_before = function()
 end
 
 local options = {
+  completion = {
+    completeopt = "menu,menuone",
+  },
+
   window = {
     completion = {
-      border = border "CmpBorder",
-      winhighlight = "Normal:CmpPmenu,CursorLine:PmenuSel,Search:None",
+      side_padding = (cmp_style ~= "atom" and cmp_style ~= "atom_colored") and 1 or 0,
+      winhighlight = "Normal:CmpPmenu,CursorLine:CmpSel,Search:None",
+      scrollbar = false,
     },
     documentation = {
       border = border "CmpDocBorder",
+      winhighlight = "Normal:CmpDoc",
     },
   },
   snippet = {
@@ -51,13 +71,9 @@ local options = {
       require("luasnip").lsp_expand(args.body)
     end,
   },
-  formatting = {
-    format = function(_, vim_item)
-      local icons = require("nvchad_ui.icons").lspkind
-      vim_item.kind = string.format("%s %s", icons[vim_item.kind], vim_item.kind)
-      return vim_item
-    end,
-  },
+
+  formatting = formatting_style,
+
   mapping = {
     ["<C-p>"] = cmp.mapping.select_prev_item(),
     ["<C-n>"] = cmp.mapping.select_next_item(),
@@ -68,16 +84,14 @@ local options = {
     ["<M-Space>"] = cmp.mapping.complete(),
     ["<C-e>"] = cmp.mapping.close(),
     ["<CR>"] = cmp.mapping.confirm {
-      behavior = cmp.ConfirmBehavior.Replace,
-      select = false,
+      behavior = cmp.ConfirmBehavior.Insert,
+      select = true,
     },
     ["<Tab>"] = cmp.mapping(function(fallback)
       if cmp.visible() then
         cmp.select_next_item()
       elseif require("luasnip").expand_or_jumpable() then
         vim.fn.feedkeys(vim.api.nvim_replace_termcodes("<Plug>luasnip-expand-or-jump", true, true, true), "")
-      elseif has_words_before() then
-        cmp.complete()
       else
         fallback()
       end
@@ -90,6 +104,8 @@ local options = {
         cmp.select_prev_item()
       elseif require("luasnip").jumpable(-1) then
         vim.fn.feedkeys(vim.api.nvim_replace_termcodes("<Plug>luasnip-jump-prev", true, true, true), "")
+      elseif has_words_before() then
+        cmp.complete()
       else
         fallback()
       end
@@ -99,8 +115,6 @@ local options = {
     }),
   },
   sources = {
-    { name = "luasnip" },
-    { name = "nvim_lsp" },
     {
       name = "buffer",
       option = {
@@ -108,15 +122,16 @@ local options = {
           return vim.api.nvim_list_bufs()
         end,
       },
-    },
+    }, 
+    { name = "nvim_lsp" },
+    { name = "luasnip" },
     { name = "nvim_lua" },
     { name = "path" },
   },
 }
 
--- check for any override
-options = require("core.utils").load_override(options, "hrsh7th/nvim-cmp")
+if cmp_style ~= "atom" and cmp_style ~= "atom_colored" then
+  options.window.completion.border = border "CmpBorder"
+end
 
-cmp.setup(options)
-
-vim.cmd("autocmd FileType sql,mysql,plsql lua require('cmp').setup.buffer({ sources = {{ name = 'vim-dadbod-completion' }} })")
+return options

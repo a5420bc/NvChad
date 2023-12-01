@@ -14,11 +14,11 @@ M.ui = {
   hl_add = highlights.add,
 }
 
-M.plugins = require "custom.plugins"
+M.plugins = "custom.plugins"
 
 -- check core.mappings for table structure
 M.mappings = require "custom.mappings"
 
-require "custom.plugins.floaterm"
+require "custom.configs.floaterm"
 
 return M

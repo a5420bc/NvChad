@@ -1,68 +1,64 @@
-local overrides = require "custom.plugins.overrides"
+local overrides = require("custom.configs.overrides")
 
-return {
+---@type NvPluginSpec[]
+local plugins = {
 
-  -- ["goolord/alpha-nvim"] = { disable = false }, -- enables dashboard
-  -- file managing , picker etc
-  -- session manager
-  ["mhinz/vim-startify"] = {},
-  ["xolox/vim-session"] = {
-    requires = "xolox/vim-misc",
+  -- Override plugin definition options
+  {"mhinz/vim-startify"},
+  {
+    "xolox/vim-session",
+    lazy = false,
+    dependencies = {
+      "xolox/vim-misc",
+      "mhinz/vim-startify",
+      "nvim-tree/nvim-tree.lua",
+    },
     config = function()
-      require "custom.plugins.session"
+      require "custom.configs.session"
     end,
   },
-  ["HUAHUAI23/telescope-session.nvim"] = {
-    after = "telescope.nvim",
-  },
-  -- Override plugin definition options
-  ["neovim/nvim-lspconfig"] = {
+  {"HUAHUAI23/telescope-session.nvim"},
+  {
+    "neovim/nvim-lspconfig", 
     config = function()
       require "plugins.configs.lspconfig"
-      require "custom.plugins.lspconfig"
+      require "custom.configs.lspconfig"
     end,
   },
-
-  -- overrde plugin configs
-  ["nvim-treesitter/nvim-treesitter"] = {
-    override_options = overrides.treesitter,
-    config = function() 
+  {
+    "nvim-treesitter/nvim-treesitter",
+    opts = overrides.treesitter,
+    init = function() 
         require('nvim-treesitter.install').compilers = { 'clang' }
     end,
   },
-
-  ["williamboman/mason.nvim"] = {
-    override_options = overrides.mason,
+  {
+    "williamboman/mason.nvim", 
+    opts = overrides.mason,
   },
-
-  ["nvim-tree/nvim-tree.lua"] = {
-    override_options = overrides.nvimtree,
+  {
+    "nvim-tree/nvim-tree.lua",
+    opts = overrides.nvimtree,
   },
-
-  ["nvim-telescope/telescope.nvim"] = {
-    override_options = overrides.telescope,
-    module = "telescope",
-    cmd = "Telescope",
+  {
+    "nvim-telescope/telescope.nvim",
+    opts = overrides.telescope,
+    lazy = false,
   },
-
-  -- Install a plugin
-  ["max397574/better-escape.nvim"] = {
-    event = "InsertEnter",
+  {
+    "max397574/better-escape.nvim",
     config = function()
       require("better_escape").setup()
     end,
   },
-
-  -- code formatting, linting etc
-  ["jose-elias-alvarez/null-ls.nvim"] = {
-    after = "nvim-lspconfig",
+  {
+    "jose-elias-alvarez/null-ls.nvim",
     config = function()
-      require "custom.plugins.null-ls"
+      require "custom.configs.null-ls"
     end,
   },
-  -- remove plugin
-  -- ["hrsh7th/cmp-path"] = false,
-  ["ahmedkhalf/project.nvim"] = {
+  {
+    "ahmedkhalf/project.nvim",
     config = function()
       require("project_nvim").setup {
         -- your configuration comes here
@@ -78,23 +74,31 @@ return {
       }
     end,
   },
-  ["nvim-pack/nvim-spectre"] = {},
-  ["ojroques/nvim-osc52"] = {},
-  ["tpope/vim-fugitive"] = {},
-  ["rcarriga/nvim-dap-ui"] = {
+  {"nvim-pack/nvim-spectre"},
+  {"ojroques/nvim-osc52"},
+  {
+    "tpope/vim-fugitive",
+    lazy = false,
+  },
+  {
+    "rcarriga/nvim-dap-ui",
     config = function()
       require("dapui").setup()
     end,
   },
-  ["mfussenegger/nvim-dap"] = {
+  {
+    "mfussenegger/nvim-dap",
     config = function()
-      require "custom.plugins.dap"
+      require "custom.configs.dap"
     end,
   },
-  ["folke/trouble.nvim"] = {},
-  ["voldikss/vim-floaterm"] = {},
-  ["nvim-lualine/lualine.nvim"] = {
-    after = "ui",
+  {"folke/trouble.nvim"},
+  {
+    "voldikss/vim-floaterm",
+    lazy = false,
+  },
+  {
+    "nvim-lualine/lualine.nvim",
     config = function()
       require("lualine").setup {
         sections = {
@@ -104,9 +108,11 @@ return {
       }
     end,
   },
-  ["karb94/neoscroll.nvim"] = {
+  {
+    "karb94/neoscroll.nvim",
+    lazy = false,
     config = function()
-      require("neoscroll").setup {
+      require("neoscroll").setup({
         -- All these keys will be mapped to their corresponding default scrolling animation
         mappings = { "<C-u>", "<C-d>", "<C-b>", "<C-f>", "<C-y>", "<C-e>", "zt", "zz", "zb" },
         hide_cursor = true, -- Hide cursor while scrolling
@@ -117,11 +123,13 @@ return {
         pre_hook = nil, -- Function to run before the scrolling animation starts
         post_hook = nil, -- Function to run after the scrolling animation ends
         performance_mode = false, -- Disable "Performance Mode" on all buffers.
-      }
+      })
     end,
   },
-  ["ethanholz/nvim-lastplace"] = {
+  {
+    "ethanholz/nvim-lastplace",
     event = "BufRead",
+    lazy = false,
     config = function()
       require("nvim-lastplace").setup {
         lastplace_ignore_buftype = { "quickfix", "nofile", "help" },
@@ -135,8 +143,9 @@ return {
       }
     end,
   },
-  ["folke/todo-comments.nvim"] = {
-    requires = "nvim-lua/plenary.nvim",
+  {
+    "folke/todo-comments.nvim",
+    dependencies = {"nvim-lua/plenary.nvim"},
     config = function()
       require("todo-comments").setup {
         -- your configuration comes here
@@ -177,31 +186,43 @@ return {
       }
     end,
   },
-  ["phaazon/hop.nvim"] = {
-    branch = "v2",
+  {
+    "phaazon/hop.nvim",
+    version = "v2",
     config = function()
       require("hop").setup {}
     end,
   },
-  ["skywind3000/asyncrun.vim"] = {},
-  ["skywind3000/asynctasks.vim"] = {
+  {
+    "skywind3000/asyncrun.vim",
+  },
+  {
+    "skywind3000/asynctasks.vim",
+    lazy = false,
+    dependencies = {"skywind3000/asyncrun.vim"},
     config = function()
-      require "custom.plugins.asynctasks"
+      require "custom.configs.asynctasks"
     end,
   },
-  ["GustavoKatel/telescope-asynctasks.nvim"] = {
-    after = "asynctasks.vim",
+  {
+    "GustavoKatel/telescope-asynctasks.nvim",
+    lazy = false,
+    -- after = "asynctasks.vim",
   },
-  ["nvim-telescope/telescope-fzf-native.nvim"] = {
-    run = "make",
+  {
+    "nvim-telescope/telescope-fzf-native.nvim",
+    build = "make",
+    dependencies = {"junegunn/fzf"},
   },
-  ["nvim-telescope/telescope-live-grep-args.nvim"] = {},
-  ["gbprod/yanky.nvim"] = {
+  {"nvim-telescope/telescope-live-grep-args.nvim"},
+  {
+    "gbprod/yanky.nvim",
     config = function()
       require("yanky").setup {}
     end,
   },
-  ["leoluz/nvim-dap-go"] = {
+  {
+    "leoluz/nvim-dap-go",
     config = function()
       require("dap-go").setup {
         -- Additional dap configurations can be added.
@@ -236,8 +257,11 @@ return {
       }
     end,
   },
-  ["sebdah/vim-delve"] = {},
-  ["kristijanhusak/vim-dadbod-ui"] = {
+  {"sebdah/vim-delve"},
+  {
+    "kristijanhusak/vim-dadbod-ui",
+    lazy = false,
+    dependencies = {"tpope/vim-dadbod", "kristijanhusak/vim-dadbod-completion"},
     config = function()
       vim.api.nvim_exec(
         [[
@@ -250,36 +274,38 @@ return {
       )
     end,
   },
-  ["kristijanhusak/vim-dadbod-completion"] = {
-    after = "nvim-cmp",
+  {
+    "kristijanhusak/vim-dadbod-completion",
+    dependencies = {"hrsh7th/nvim-cmp"},
     config = function()
-      require "custom.plugins.dad"
+      require "custom.configs.dad"
     end,
   },
-  ["tpope/vim-dadbod"] = {},
-  ["kevinhwang91/nvim-bqf"] = {
+  {"tpope/vim-dadbod"},
+  {
+    "kevinhwang91/nvim-bqf",
     config = function()
-      require "custom.plugins.qf"
+      require "custom.configs.qf"
     end,
   },
-  ["junegunn/fzf"] = {
+  {
+    "junegunn/fzf",
     run = function()
       vim.fn["fzf#install"]()
     end,
   },
-  ["kdheepak/lazygit.nvim"] = {
+  {
+    "kdheepak/lazygit.nvim",
+    lazy = false,
     -- optional for floating window border decoration
     dependencies = {
       "nvim-lua/plenary.nvim",
     },
   },
-  ["kkoomen/vim-doge"] = {
-    run = ":call doge#install()",
+  {
+    "kkoomen/vim-doge",
+    lazy = false,
+    build = ":call doge#install()",
   },
-  -- ['jedrzejboczar/possession.nvim'] = {
-  --   requires =  'nvim-lua/plenary.nvim',
-  --   config = function()
-  --     require("possession").setup({})
-  --   end
-  -- },
 }
+return plugins
