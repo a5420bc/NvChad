@@ -19,7 +19,7 @@ local plugins = {
   },
   {"HUAHUAI23/telescope-session.nvim"},
   {
-    "neovim/nvim-lspconfig", 
+    "neovim/nvim-lspconfig",
     config = function()
       require "plugins.configs.lspconfig"
       require "custom.configs.lspconfig"
@@ -28,12 +28,12 @@ local plugins = {
   {
     "nvim-treesitter/nvim-treesitter",
     opts = overrides.treesitter,
-    init = function() 
+    init = function()
         require('nvim-treesitter.install').compilers = { 'clang' }
     end,
   },
   {
-    "williamboman/mason.nvim", 
+    "williamboman/mason.nvim",
     opts = overrides.mason,
   },
   {
@@ -47,6 +47,8 @@ local plugins = {
   },
   {
     "max397574/better-escape.nvim",
+    lazy = true,
+    event = { "CursorHold", "CursorHoldI" },
     config = function()
       require("better_escape").setup()
     end,
@@ -78,7 +80,8 @@ local plugins = {
   {"ojroques/nvim-osc52"},
   {
     "tpope/vim-fugitive",
-    lazy = false,
+    lazy = true,
+	cmd = { "Git", "G" },
   },
   {
     "rcarriga/nvim-dap-ui",
@@ -88,11 +91,30 @@ local plugins = {
   },
   {
     "mfussenegger/nvim-dap",
+    lazy = true,
+	cmd = {
+		"DapSetLogLevel",
+		"DapShowLog",
+		"DapContinue",
+		"DapToggleBreakpoint",
+		"DapToggleRepl",
+		"DapStepOver",
+		"DapStepInto",
+		"DapStepOut",
+		"DapTerminate",
+	},
+    dependencies = {
+        "rcarriga/nvim-dap-ui",
+    },
     config = function()
       require "custom.configs.dap"
     end,
   },
-  {"folke/trouble.nvim"},
+  {
+    "folke/trouble.nvim",
+    lazy = true,
+    cmd = { "Trouble", "TroubleToggle", "TroubleRefresh" },
+  },
   {
     "voldikss/vim-floaterm",
     lazy = false,
@@ -111,7 +133,8 @@ local plugins = {
   },
   {
     "karb94/neoscroll.nvim",
-    lazy = false,
+    lazy = true,
+    event = { "CursorHold", "CursorHoldI" },
     config = function()
       require("neoscroll").setup({
         -- All these keys will be mapped to their corresponding default scrolling animation
@@ -125,6 +148,19 @@ local plugins = {
         post_hook = nil, -- Function to run after the scrolling animation ends
         performance_mode = false, -- Disable "Performance Mode" on all buffers.
       })
+    end,
+  },
+  {
+    "dstein64/nvim-scrollview",
+    lazy = true,
+    event = { "BufReadPost", "BufAdd", "BufNewFile" },
+    config = function ()
+        require('scrollview').setup({
+            scrollview_mode = "virtual",
+            excluded_filetypes = { "NvimTree", "terminal", "nofile", "aerial" },
+            winblend = 0,
+            signs_on_startup = { "diagnostics", "folds", "marks", "search", "spell" },
+        })
     end,
   },
   {
@@ -218,9 +254,15 @@ local plugins = {
   {"nvim-telescope/telescope-live-grep-args.nvim"},
   {
     "gbprod/yanky.nvim",
+    lazy=false,
     config = function()
       require("yanky").setup {}
     end,
+  },
+  {
+   "ibhagwan/smartyank.nvim",
+	lazy = true,
+	event = "BufReadPost",
   },
   {
     "leoluz/nvim-dap-go",
@@ -285,7 +327,8 @@ local plugins = {
   {"tpope/vim-dadbod"},
   {
     "kevinhwang91/nvim-bqf",
-    config = function()
+    ft = "qf",
+    init = function()
       require "custom.configs.qf"
     end,
   },

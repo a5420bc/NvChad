@@ -47,11 +47,11 @@ M.buf = {
   n = {
     ["<leader>bo"] = {
       function()
-        local bufs = require("nvchad_ui.tabufline").bufilter() or {}
+        local bufs = require("nvchad.tabufline").bufilter() or {}
         local currentBuf = vim.api.nvim_get_current_buf()
         for _, buf in ipairs(bufs) do
           if currentBuf ~= buf then
-            require("nvchad_ui.tabufline").close_buffer(buf)
+            require("nvchad.tabufline").close_buffer(buf)
           end
         end
       end,
@@ -60,7 +60,7 @@ M.buf = {
     },
     ["<leader>bc"] = {
       function()
-        require("nvchad_ui.tabufline").closeAllBufs()
+        require("nvchad.tabufline").closeAllBufs()
       end,
       "close all buffer",
     },
