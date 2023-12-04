@@ -55,6 +55,8 @@ local plugins = {
   },
   {
     "jose-elias-alvarez/null-ls.nvim",
+    lazy = true,
+	event = { "CursorHold", "CursorHoldI" },
     config = function()
       require "custom.configs.null-ls"
     end,
@@ -105,6 +107,7 @@ local plugins = {
 	},
     dependencies = {
         "rcarriga/nvim-dap-ui",
+        "leoluz/nvim-dap-go",
     },
     config = function()
       require "custom.configs.dap"
