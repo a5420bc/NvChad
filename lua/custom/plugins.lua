@@ -82,7 +82,7 @@ local plugins = {
   {"ojroques/nvim-osc52"},
   {
     "tpope/vim-fugitive",
-    lazy = true,
+    lazy = false,
 	cmd = { "Git", "G" },
   },
   {

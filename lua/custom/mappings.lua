@@ -78,7 +78,7 @@ M.telescope = {
       "search word",
     },
     ["<leader>fc"] = {
-      "<cmd>Telescope lsp_document_symbols symbols={'function','method'}<CR>",
+      "<cmd>Telescope lsp_document_symbols symbols={'function','method'} symbol_width=80<CR>",
       "find function",
     },
     ["<leader>fs"] = {
