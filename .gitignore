@@ -1,5 +1,8 @@
 spell
 ftplugin
+syntax
 coc-settings.json
 .luarc.json
-cheatsheet.txt
+lazy-lock.json
+after
+**/.DS_Store

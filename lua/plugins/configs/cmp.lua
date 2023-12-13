@@ -122,7 +122,7 @@ local options = {
           return vim.api.nvim_list_bufs()
         end,
       },
-    }, 
+    },
     { name = "nvim_lsp" },
     { name = "luasnip" },
     { name = "nvim_lua" },
