@@ -217,6 +217,7 @@ M.floaterm = {
     ["<A-j>"] = { "<C-\\><C-n>:wincmd j<CR>", "floaterm down" },
     ["<A-q>"] = { "<c-\\><c-n>", "escape term mode" },
     ["<A-o>"] = { "<c-\\><c-n>:FloatermToggle<CR>", "floaterm toggle" },
+    ["<A-i>"] = { "<c-\\><c-n>:FloatermHide!<CR>", "floaterm hide" },
   },
 }
 
@@ -288,8 +289,12 @@ M.dbui = {
       "go to next tab",
     },
     ["<leader>m"] = {
-      ":tab DBUI<CR>",
+      function()
+        require("custom.configs.toggleterm").set_dbui_mappings()
+        require("custom.configs.toggleterm").dbui_toggle()
+      end,
       "open database ui",
+      {noremap = true, silent = true}
     },
     ["<leader>mc"] = {
       function()
@@ -299,6 +304,15 @@ M.dbui = {
         vim.cmd "tabc"
       end,
       "close db ui(in fact close all buffers in tab and tab itself)"
+    }
+  },
+  t = {
+    ["<leader>m"] = {
+      function()
+        require("custom.configs.toggleterm").dbui_toggle()
+        require("custom.configs.toggleterm").restore_dbui_mappings()
+      end,
+      "close database ui",
     }
   },
 }

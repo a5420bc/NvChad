@@ -354,5 +354,6 @@ local plugins = {
     lazy = false,
     build = ":call doge#install()",
   },
+  {'akinsho/toggleterm.nvim', version = "*", config = true},
 }
 return plugins
