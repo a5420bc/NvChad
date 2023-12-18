@@ -2,7 +2,7 @@ local M = {}
 
 local Terminal  = require('toggleterm.terminal').Terminal
 local dbui = Terminal:new({
-    cmd='nvim +\'exec "DBUI"\'',
+    cmd='nvim +\'exec "CALLDB"\'',
     hidden=true,
     direction = "float",
     start_in_insert = true,
@@ -34,11 +34,6 @@ function M.restore_dbui_mappings()
     local saved_keymaps = require("custom.mappings").floaterm
     for mode, keymap in pairs(saved_keymaps) do
         for key, value in pairs(keymap) do
-            -- print("Field Name:", key)
-            -- for key1, value1 in pairs(value) do
-            --     print("Field Name:",key1, value1)
-            -- end
-            print(mode, key, value[1], value[2], value[3])
             vim.api.nvim_set_keymap(mode, key, value[1], {})
         end
     end

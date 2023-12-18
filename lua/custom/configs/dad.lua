@@ -24,9 +24,16 @@ local M = {}
 function M.dbui_mappings()
     vim.api.nvim_set_keymap("t", '<A-h>', "<C-w>h", { noremap = true, silent = true })
     vim.api.nvim_set_keymap("t", '<A-l>',"<C-w>l", { noremap = true, silent = true })
-    vim.api.nvim_set_keymap("t", '<A-j>',"<C-j>j", { noremap = true, silent = true })
-    vim.api.nvim_set_keymap("t", '<A-k>',"<C-k>k", { noremap = true, silent = true })
+    vim.api.nvim_set_keymap("t", '<A-j>',"<C-w>j", { noremap = true, silent = true })
+    vim.api.nvim_set_keymap("t", '<A-k>',"<C-w>k", { noremap = true, silent = true })
 end
+
+function M.DBUI()
+    vim.cmd('set showtabline=0 nonu signcolumn=no nofoldenable')
+    vim.cmd('exec "DBUI"')
+end
+
+vim.cmd('com! CALLDB lua require("custom.configs.dad").DBUI()')
 
 M.DBUI_Name = "DBUI"
 return M

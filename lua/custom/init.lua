@@ -24,6 +24,12 @@ autocmd("BufEnter", {
   end,
 })
 
+autocmd("VimEnter", {
+    callback = function()
+        vim.api.nvim_command("silent! cle")
+    end
+})
+
 autocmd("ExitPre", {
   callback = function()
     -- 将DBUI产生的buffer页面关闭
@@ -35,7 +41,6 @@ autocmd("ExitPre", {
         vim.cmd("bd! " .. buffer)
       end
     end
-   
     -- 关闭除当前活跃tab
     local tabs = vim.api.nvim_list_tabpages()
     for _, tab in ipairs(tabs) do

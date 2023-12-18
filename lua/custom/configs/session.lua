@@ -16,7 +16,8 @@ vim.api.nvim_exec(
      " 切换session时关闭所有的terminal
      let g:startify_session_before_save = [
      \ 'echo "Cleaning up before saving.."',
-     \ 'silent FloatermKill!'
+     \ 'silent FloatermKill!',
+     \ 'silent! cle',
      \ ]
      let g:session_autoload='yes'
      let g:session_autosave='yes'
@@ -35,6 +36,7 @@ vim.api.nvim_exec(
          let g:session_swap_name =  fnamemodify(v:this_session, ':t')
          call xolox#session#open_cmd(a:name, a:bang, 'OpenSession')
        endif
+       exe "silent! cle"
        if &filetype == "php"
          exe "silent! LspRestart"
        endif
