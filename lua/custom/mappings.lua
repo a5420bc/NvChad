@@ -308,10 +308,7 @@ M.dbui = {
   },
   t = {
     ["<leader>m"] = {
-      function()
-        require("custom.configs.toggleterm").dbui_toggle()
-        require("custom.configs.toggleterm").restore_dbui_mappings()
-      end,
+      "",
       "close database ui",
     }
   },
