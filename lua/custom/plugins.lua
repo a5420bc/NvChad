@@ -63,6 +63,7 @@ local plugins = {
   },
   {
     "ahmedkhalf/project.nvim",
+    lazy = false,
     config = function()
       require("project_nvim").setup {
         -- your configuration comes here
