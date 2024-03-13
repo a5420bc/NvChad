@@ -115,11 +115,11 @@ M.telescope = {
         ["<C-k>"] = require("telescope.actions").toggle_selection + require("telescope.actions").move_selection_better,
       },
     },
-    pickers = {
-        buffers = {
-            sort_mru = true,
-        },
-    },
+  },
+  pickers = {
+      buffers = {
+          sort_mru = true,
+      },
   },
 }
 
